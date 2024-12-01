@@ -1,0 +1,50 @@
+#include <iostream>
+#include <stack>
+#include <string>
+using namespace std;
+
+// Function to simulate PDA for L = {wXw^R | w is a string, X is a special symbol}
+bool simulate_PDA(string w) {
+    stack<char> st;
+    int i = 0; // Input pointer
+
+    // Step 1: Push characters of 'w' onto the stack until 'X' is found
+    while (i < w.length() && w[i] != 'X') {
+        st.push(w[i]);
+        i++;
+    }
+
+    // Step 2: If 'X' not found, reject the string
+    if (i == w.length() || w[i] != 'X') {
+        return false;
+    }
+
+    // Step 3: Move past the 'X'
+    i++;
+
+    // Step 4: Match characters in reverse order with the stack
+    while (i < w.length()) {
+        if (st.empty() || st.top() != w[i]) {
+            return false; // Mismatch found
+        }
+        st.pop();
+        i++;
+    }
+
+    // Step 5: Accept if stack is empty and all input is processed
+    return st.empty();
+}
+
+int main() {
+    string w;
+    cout << "Enter a string: ";
+    cin >> w;
+
+    if (simulate_PDA(w)) {
+        cout << "The string is accepted by the PDA." << endl;
+    } else {
+        cout << "The string is rejected by the PDA." << endl;
+    }
+
+    return 0;
+}
