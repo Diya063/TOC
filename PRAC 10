@@ -1,0 +1,33 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+// Function to simulate the Turing Machine
+string incrementBinary(string tape) {
+    int i = tape.length() - 1; // Start from the rightmost bit
+
+    // Step 1: Process the tape from right to left
+    while (i >= 0) {
+        if (tape[i] == '0') {
+            tape[i] = '1'; // No carry needed
+            return tape;   // Return the result
+        } else if (tape[i] == '1') {
+            tape[i] = '0'; // Carry over
+        }
+        i--; // Move left
+    }
+
+    // Step 2: If carry propagates to the start, prepend '1'
+    return "1" + tape;
+}
+
+int main() {
+    string tape;
+    cout << "Enter a binary number: ";
+    cin >> tape;
+
+    string result = incrementBinary(tape);
+    cout << "The incremented binary number is: " << result << endl;
+
+    return 0;
+}
