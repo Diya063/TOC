@@ -1,0 +1,63 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+// Function prototypes
+bool simulate_FA_L1(string w, int i);
+bool simulate_FA_L2(string w, int i);
+void simulate_union(string w);
+void simulate_intersection(string w);
+void simulate_concatenation(string w);
+
+// Simulate union of L1 and L2
+void simulate_union(string w) {
+    if (simulate_FA_L1(w, 0) || simulate_FA_L2(w, 0)) {
+        cout << "String is accepted by union of L1 and L2" << endl;
+    } else {
+        cout << "String is rejected by union of L1 and L2" << endl;
+    }
+}
+
+// Simulate intersection of L1 and L2
+void simulate_intersection(string w) {
+    if (simulate_FA_L1(w, 0) && simulate_FA_L2(w, 0)) {
+        cout << "String is accepted by intersection of L1 and L2" << endl;
+    } else {
+        cout << "String is rejected by intersection of L1 and L2" << endl;
+    }
+}
+
+// Simulate concatenation of L1 and L2
+void simulate_concatenation(string w) {
+    for (int i = 1; i <= w.length(); i++) {
+        string prefix = w.substr(0, i);
+        string suffix = w.substr(i);
+        if (simulate_FA_L1(prefix, 0) && simulate_FA_L2(suffix, 0)) {
+            cout << "String is accepted by concatenation of L1 and L2" << endl;
+            return;
+        }
+    }
+    cout << "String is rejected by concatenation of L1 and L2" << endl;
+}
+
+// Simulating FA for L1 (example: accepts strings with even length)
+bool simulate_FA_L1(string w, int i) {
+    return w.length() % 2 == 0; // Placeholder for actual FA simulation logic
+}
+
+// Simulating FA for L2 (example: accepts strings ending in 'b')
+bool simulate_FA_L2(string w, int i) {
+    return !w.empty() && w[w.length() - 1] == 'b'; // Placeholder for actual FA simulation logic
+}
+
+int main() {
+    string w;
+    cout << "Enter the string: ";
+    cin >> w;
+
+    simulate_union(w);
+    simulate_intersection(w);
+    simulate_concatenation(w);
+
+    return 0;
+}
