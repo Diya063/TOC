@@ -1,0 +1,56 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+// Function to simulate the Turing Machine
+bool simulate_TM(string tape) {
+    int i = 0; // Tape pointer
+    int length = tape.length();
+
+    while (true) {
+        // State q0: Find 'a' and mark it as 'X'
+        while (i < length && tape[i] != 'a' && tape[i] != 'Y' && tape[i] != 'Z') i++;
+        if (i >= length) break; // No 'a' found, exit loop
+        if (tape[i] == 'a') {
+            tape[i] = 'X';
+            i++;
+        } else {
+            return false; // Invalid symbol order
+        }
+
+        // State q1: Find 'b' and mark it as 'Y'
+        while (i < length && tape[i] != 'b' && tape[i] != 'Z') i++;
+        if (i >= length || tape[i] != 'b') return false; // 'b' not found
+        tape[i] = 'Y';
+        i++;
+
+        // State q2: Find 'c' and mark it as 'Z'
+        while (i < length && tape[i] != 'c') i++;
+        if (i >= length || tape[i] != 'c') return false; // 'c' not found
+        tape[i] = 'Z';
+
+        // Move back to the start of the tape
+        i = 0;
+    }
+
+    // Check if the tape contains only 'X', 'Y', and 'Z'
+    for (char ch : tape) {
+        if (ch != 'X' && ch != 'Y' && ch != 'Z') return false;
+    }
+
+    return true;
+}
+
+int main() {
+    string tape;
+    cout << "Enter a string: ";
+    cin >> tape;
+
+    if (simulate_TM(tape)) {
+        cout << "The string is accepted by the Turing Machine." << endl;
+    } else {
+        cout << "The string is rejected by the Turing Machine." << endl;
+    }
+
+    return 0;
+}
