@@ -1,0 +1,61 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+void State1(string w, int i);
+void State2(string w, int i);
+void State3(string w, int i, char first);
+void State4(string w, int i, char first, char second);
+void State5(string w, int i);
+void State6(string w, int i);
+
+void State1(string w, int i) {
+    cout << "State 1" << endl;
+    State2(w, i);
+}
+
+void State2(string w, int i) {
+    cout << "State 2" << endl;
+    char first = w[i];
+    State3(w, i + 1, first);
+}
+
+void State3(string w, int i, char first) {
+    cout << "State 3" << endl;
+    char second = w[i];
+    State4(w, i + 1, first, second);
+}
+
+void State4(string w, int i, char first, char second) {
+    cout << "State 4" << endl;
+    if (i >= w.length() - 2) {
+        if (w[i] == first && w[i + 1] == second)
+            State5(w, i + 2);
+        else
+            State6(w, i + 2);
+    } else {
+        State4(w, i + 1, first, second);
+    }
+}
+
+void State5(string w, int i) {
+    cout << "State 5" << endl;
+    cout << "String is accepted" << endl;
+}
+
+void State6(string w, int i) {
+    cout << "State 6" << endl;
+    cout << "String is rejected" << endl;
+}
+
+int main() {
+    string w;
+    cout << "Enter the string: ";
+    cin >> w;
+    if (w.length() < 4) {
+        cout << "String is rejected" << endl;
+        return 0;
+    }
+    State1(w, 0);
+    return 0;
+}
