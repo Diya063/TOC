@@ -1,0 +1,42 @@
+#include <iostream>
+#include <stack>
+#include <string>
+using namespace std;
+
+// Function to simulate PDA for L = {a^n b^n | n > 0}
+bool simulate_PDA(string w) {
+    stack<char> st; // Stack for the PDA
+    int i = 0;      // Input pointer
+
+    // Reading 'a's and pushing onto the stack
+    while (i < w.length() && w[i] == 'a') {
+        st.push('a');
+        i++;
+    }
+
+    // Transition to processing 'b's
+    while (i < w.length() && w[i] == 'b') {
+        if (st.empty()) {
+            return false; // More 'b's than 'a's
+        }
+        st.pop();
+        i++;
+    }
+
+    // Accept if stack is empty and all input is processed
+    return st.empty() && i == w.length();
+}
+
+int main() {
+    string w;
+    cout << "Enter a string: ";
+    cin >> w;
+
+    if (simulate_PDA(w)) {
+        cout << "The string is accepted by the PDA." << endl;
+    } else {
+        cout << "The string is rejected by the PDA." << endl;
+    }
+
+    return 0;
+}
